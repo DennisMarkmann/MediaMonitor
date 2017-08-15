@@ -2,10 +2,11 @@ Logik:
 
 1. Überwachung von mehreren Pfaden (Settings.xml)
 2. Suche nach angebenen Ordnernamen (Angegeben in ToWatch.xml)
-3. Falls Datei in Ordner vorhanden: Datei verschieben nach ToWatchPath
-4. Hier Ordner erstellen mit Seriennamen falls noch nicht vorhanden
-5. Notification an User
-6. Logging in History
+3. Falls Ordner vorhanden: Dateien extrahieren nach ToWatchPath
+4. Ordner löschen
+5. Hier Ordner erstellen mit Seriennamen falls noch nicht vorhanden
+6. Notification an User
+7. Logging in History
 
 Settings.xml Tags:
 <ToWatchPath> (Einer)
