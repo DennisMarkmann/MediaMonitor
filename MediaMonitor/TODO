@@ -1,0 +1,27 @@
+1. Next
+1.1.	Fix: No class / row set in logs if exported via ant
+1.2.	Implement easier logging solution
+1.3.	Fix Eclipse warning during export if class files were build via ant
+
+2. Cleanup
+2.1.	Remove special logic for reading / writing of Exceptions from / to XML (TypeSettings)
+2.2.	Add observable pattern (Timer active status -> GUI)
+
+3.	Additional functionality
+3.1.	File rename & episode names etc from Online DB
+3.2.	Add movie functionality
+3.2.1.	Get correct movie name --> rename
+3.2.2.	Check if not existing in movie folder --> move
+3.2.3.	Remove from download directory
+3.2.4.	Cleanup unneeded files from movie folder (only currently moved movie), Types: ".en.sub", ".sub", ".idx"
+3.3.	Add email notifications
+3.3.1.	for every scan (with new entries)
+3.3.2.	as batches in given time intervals (daily, weekly, monthly)
+3.4.	Add bottom to top option for history and log
+
+4. Usability
+4.1.	Rename process in task manager
+4.2.	Add software entry
+4.3.	Add installer
+4.4.	Add Unix support
+4.5.	Add GUI implementation

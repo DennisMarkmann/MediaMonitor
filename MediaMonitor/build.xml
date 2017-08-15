@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE xml>
+<project name="FileExtractor" default="test">
+
+	<property name="src.dir" location="src" />
+	<property name="build.dir" location="build" />
+	<property name="lib.dir" location="lib" />
+	<property name="reports.dir" location="reports" />
+	<property name="export.dir" location="export" />
+	<property name="doc.dir" location="doc" />
+
+	<target name="init" description="Creates missing folder needed to run other tasks.">
+		<mkdir dir="${build.dir}/classes" />
+		<mkdir dir="${lib.dir}" />
+		<mkdir dir="${reports.dir}" />
+		<mkdir dir="${export.dir}" />
+		<mkdir dir="${doc.dir}" />
+	</target>
+
+	<target name="compile" depends="init" description="Compile the application.">
+		<javac srcdir="." destdir="${build.dir}/classes" includeantruntime="false">
+			<classpath>
+				<fileset dir="./lib/">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="clean" depends="init" description="Remove all built files.">
+		<delete includeEmptyDirs="true">
+			<fileset dir="${build.dir}" includes="**/*" />
+		</delete>
+	</target>
+
+	<target name="cleanAll" depends="init" description="Remove all built files, docs, reports and generated export files.">
+		<delete includeEmptyDirs="true">
+			<fileset dir="${build.dir}" includes="**/*" />
+			<fileset dir="${doc.dir}" includes="**/*" />
+			<fileset dir="${reports.dir}" includes="**/*" />
+			<fileset dir="${export.dir}" includes="**/*" />
+		</delete>
+	</target>
+
+	<target name="export" depends="compile" description="Create a runnable jar file for the project and copy needed ressources.">
+		<mkdir dir="${export.dir}" />
+		<jar destfile="${export.dir}/FileExtractor.jar" filesetmanifest="mergewithoutmain">
+			<manifest>
+				<attribute name="Main-Class" value="markmann.dennis.fileExtractor.logic.StartUp" />
+				<attribute name="Class-Path" value="." />
+			</manifest>
+			<fileset dir="${build.dir}/classes" />
+			<zipfileset excludes="META-INF/*.SF" src="${lib.dir}/MyLibraries.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="${lib.dir}/log4j-1.2.17.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="${lib.dir}/junit-4.12.jar" />
+			<zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hamcrest-core-1.3.jar" />
+		</jar>
+		<copy todir="${export.dir}/Settings">
+			<fileset dir="./Settings" />
+		</copy>
+		<copy todir="${export.dir}/Icons">
+			<fileset dir="./Icons" />
+		</copy>
+	</target>
+
+	<target name="zip" depends="export" description="Create a zip file including all files needed to run the application.">
+		<zip destfile="${export.dir}/release.zip">
+			<fileset dir="${export.dir}">
+				<exclude name="*.zip" />
+			</fileset>
+		</zip>
+	</target>
+
+	<target name="test" depends="compile" description="Execute all existing JUnitTests.">
+		<mkdir dir="${reports.dir}" />
+
+		<junit printsummary="yes" haltonfailure="no">
+			<classpath location="lib/junit-4.12.jar" />
+			<classpath location="lib/hamcrest-core-1.3.jar" />
+			<classpath location="lib/log4j-1.2.17.jar" />
+			<classpath location="${build.dir}/classes" />
+
+			<formatter type="plain" />
+			<formatter type="xml" />
+			<batchtest fork="yes" todir="${reports.dir}">
+				<fileset dir="${src.dir}">
+					<include name="**/*Test*.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+
+	<target name="doc" depends="compile" description="Generate the documentation as javaDoc.">
+		<javadoc sourcepath="${src.dir}" destdir="${doc.dir}" />
+	</target>
+
+</project>

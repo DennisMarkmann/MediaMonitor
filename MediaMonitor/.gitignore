@@ -1,0 +1,13 @@
+/bin
+*.metadata 
+*.class
+
+# Package Files #
+*.war
+*.ear
+/target
+/Logs
+/build/
+/reports/
+/doc/
+/export/

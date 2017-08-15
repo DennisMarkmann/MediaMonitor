@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Settings>
+    <UseGui>false</UseGui>
+    <UseSystemTray>true</UseSystemTray>
+    <UseTimer>true</UseTimer>
+    <TimerInterval>60</TimerInterval>
+    <UsePopupNotification>true</UsePopupNotification>
+    <UseRenaming>true</UseRenaming>
+    <UseCleanup>true</UseCleanup>
+    <UseFileMoving>true</UseFileMoving>
+    <UseHistory>true</UseHistory>
+    <UseExtendedLogging>false</UseExtendedLogging>
+    <RemoveCorruptFiles>true</RemoveCorruptFiles>
+    <RemoveVersionNumbers>true</RemoveVersionNumbers>
+    <StartPaused>false</StartPaused>
+</Settings>
