@@ -9,11 +9,13 @@ Logik:
 7. Logging in History
 
 Settings.xml Tags:
-<ToWatchPath> (Einer)
+<CompletionPath> (Einer)
 <MonitoredPath> (Mehrere)
-<UseTimer>
-<TimerInterval>
-<UsePopupNotification>
-<UseFolderCreation>
-<UseSystemTray>
-<StartPaused>
+
+GUI:
+
+1. Tabellarische Ansicht aller überwachten Shows
+	Name, Latest Season & Episode, Latest Date added, unwatched counter
+2. Settings Window inklusive Watched Paths
+3. History & Log Frame
+4. Play button für älteste nicht geguckte Episode je Show (Default OS Mediaplayer)

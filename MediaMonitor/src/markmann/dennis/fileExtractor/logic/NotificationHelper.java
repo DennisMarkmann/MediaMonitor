@@ -1,12 +1,12 @@
 package markmann.dennis.fileExtractor.logic;
 
 import java.awt.TrayIcon.MessageType;
+import java.io.File;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
 import markmann.dennis.fileExtractor.logging.LogHandler;
-import markmann.dennis.fileExtractor.mediaObjects.Medium;
 import markmann.dennis.fileExtractor.settings.SettingHandler;
 import markmann.dennis.fileExtractor.systemTray.SystemTrayMenu;
 
@@ -46,7 +46,7 @@ public class NotificationHelper {
      * @param mediaList: List containing the information about the recently processed media files.
      */
 
-    static void showExtractionNotification(ArrayList<Medium> mediaList) {
+    static void showExtractionNotification(ArrayList<File> mediaList) {
         if (!SettingHandler.getGeneralSettings().useSystemTray()
                 || !SettingHandler.getGeneralSettings().usePopupNotification()) {
             return;
@@ -54,9 +54,9 @@ public class NotificationHelper {
         StringBuilder fileNames = new StringBuilder();
         int i = 0;
         String infoString = "new file:";
-        for (Medium medium : mediaList) {
+        for (File medium : mediaList) {
             fileNames.append("\n");
-            fileNames.append(medium.getCompleteTitle());
+            fileNames.append(medium.getName());
             i++;
             // Cant show more than 2 entries with the windows 10 default popup anyway.
             if (i == 2) {

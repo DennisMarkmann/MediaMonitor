@@ -96,9 +96,6 @@ class XMLFileReader {
             doc.getDocumentElement().normalize();
 
             NodeList nList = doc.getElementsByTagName("Settings");
-            if (settings instanceof TypeSettings) {
-                ((TypeSettings) settings).clearExceptions();
-            }
             for (int temp = 0; temp < nList.getLength(); temp++) {
 
                 Node nNode = nList.item(temp);
@@ -110,18 +107,6 @@ class XMLFileReader {
                     for (Field field : settings.getClass().getDeclaredFields()) {
 
                         String fieldName = Character.toUpperCase(field.getName().charAt(0)) + field.getName().substring(1);
-                        if ((settings instanceof TypeSettings) && fieldName.equals("Exceptions")) {
-                            NodeList nodeList = element.getChildNodes();
-                            for (int i = 0; i < nodeList.getLength(); i++) {
-                                if (nodeList.item(i).getNodeName().equals("Exception")) {
-                                    Element subElement = (Element) nodeList.item(i);
-                                    String exceptionName = this.getValueByName(subElement, "ExceptionName");
-                                    String exceptionPath = this.getValueByName(subElement, "ExceptionPath");
-                                    ((TypeSettings) settings).addException(new ExceptionPath(exceptionName, exceptionPath));
-                                }
-                            }
-                            continue;
-                        }
                         Object oldFieldValue = field.get(settings);
                         Object newFieldValue = this
                                 .convertValueToType(field.getType(), this.getValueByName(element, fieldName));

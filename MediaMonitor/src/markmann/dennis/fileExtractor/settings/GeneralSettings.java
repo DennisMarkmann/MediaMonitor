@@ -13,33 +13,23 @@ public class GeneralSettings implements Settings {
     boolean useTimer = true;
     int timerInterval = 60;
     boolean usePopupNotification = true;
-    boolean useRenaming = true;
     boolean useCleanup = true;
-    boolean useFileMoving = true;
     boolean useHistory = true;
     boolean useExtendedLogging = false;
-    boolean removeCorruptFiles = true;
-    boolean removeVersionNumbers = true;
     boolean startPaused = false;
+    String CompletionPath = "Test";
+    boolean useFolderCreation = false;
+
+    public String getCompletionPath() {
+        return this.CompletionPath;
+    }
 
     public int getTimerInterval() {
         return this.timerInterval;
     }
 
-    public boolean removeCorruptFiles() {
-        return this.removeCorruptFiles;
-    }
-
-    public boolean removeVersionNumbers() {
-        return this.removeVersionNumbers;
-    }
-
-    public void setRemoveCorruptFiles(boolean removeCorruptFiles) {
-        this.removeCorruptFiles = removeCorruptFiles;
-    }
-
-    public void setRemoveVersionNumbers(boolean removeVersionNumbers) {
-        this.removeVersionNumbers = removeVersionNumbers;
+    public void setCompletionPath(String completionPath) {
+        this.CompletionPath = completionPath;
     }
 
     public void setStartPaused(boolean startPaused) {
@@ -58,8 +48,8 @@ public class GeneralSettings implements Settings {
         this.useExtendedLogging = useExtendedLogging;
     }
 
-    public void setUseFileMoving(boolean useFileMoving) {
-        this.useFileMoving = useFileMoving;
+    public void setUseFolderCreation(boolean useFolderCreation) {
+        this.useFolderCreation = useFolderCreation;
     }
 
     public void setUseGui(boolean useGui) {
@@ -72,10 +62,6 @@ public class GeneralSettings implements Settings {
 
     public void setUsePopupNotification(boolean usePopupNotification) {
         this.usePopupNotification = usePopupNotification;
-    }
-
-    public void setUseRenaming(boolean useRenaming) {
-        this.useRenaming = useRenaming;
     }
 
     public void setUseSystemTray(boolean useSystemTray) {
@@ -98,8 +84,8 @@ public class GeneralSettings implements Settings {
         return this.useExtendedLogging;
     }
 
-    public boolean useFileMoving() {
-        return this.useFileMoving;
+    public boolean useFolderCreation() {
+        return this.useFolderCreation;
     }
 
     boolean useGui() {
@@ -112,10 +98,6 @@ public class GeneralSettings implements Settings {
 
     public boolean usePopupNotification() {
         return this.usePopupNotification;
-    }
-
-    public boolean useRenaming() {
-        return this.useRenaming;
     }
 
     public boolean useSystemTray() {

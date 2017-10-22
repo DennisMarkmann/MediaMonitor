@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Settings>
-    <Type>Series</Type>
-    <ExtractionPath>M:\Processing\Completed\Series</ExtractionPath>
-    <CompletionPath>M:\Series</CompletionPath>
-    <UseSeriesFolder>false</UseSeriesFolder>
-    <UseSeasonFolder>false</UseSeasonFolder>
-    <UseCurrentlyWatchingCheck>true</UseCurrentlyWatchingCheck>
-</Settings>

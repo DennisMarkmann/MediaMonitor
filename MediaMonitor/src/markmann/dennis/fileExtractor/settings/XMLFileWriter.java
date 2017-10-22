@@ -31,17 +31,7 @@ class XMLFileWriter {
 
             try {
                 String fieldName = Character.toUpperCase(field.getName().charAt(0)) + field.getName().substring(1);
-
-                if ((settings instanceof TypeSettings) && fieldName.equals("Exceptions")) {
-                    for (final ExceptionPath exceptionPath : ((TypeSettings) settings).getExceptions()) {
-                        final Element exceptionElement = helper.createElement(doc, element, "Exception", null);
-                        helper.createElement(doc, exceptionElement, "ExceptionName", exceptionPath.getName());
-                        helper.createElement(doc, exceptionElement, "ExceptionPath", exceptionPath.getPath());
-                    }
-                }
-                else {
-                    helper.createElement(doc, element, fieldName, field.get(settings) + "");
-                }
+                helper.createElement(doc, element, fieldName, field.get(settings) + "");
             }
             catch (IllegalArgumentException | IllegalAccessException e) {
                 NotificationHelper.showErrorNotification("Writing of '" + name + "' file failed.", true, e);

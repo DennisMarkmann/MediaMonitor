@@ -18,7 +18,7 @@ import markmann.dennis.fileExtractor.logic.Controller;
 import markmann.dennis.fileExtractor.settings.GeneralSettings;
 import markmann.dennis.fileExtractor.settings.SettingHandler;
 import markmann.dennis.fileExtractor.settings.Settings;
-import markmann.dennis.fileExtractor.settings.TypeSettings;
+import markmann.dennis.fileExtractor.settings.ShowsToWatch;
 
 /**
  * Class used to create the system tray icon for the application. Also handles popup notifications.
@@ -95,7 +95,7 @@ public class SystemTrayMenu {
                 name = "General";
             }
             else {
-                name = ((TypeSettings) settings).getType().toString();
+                name = ((ShowsToWatch) settings).getType().toString();
             }
             MenuItem subMenuItem = new MenuItem(name);
             subMenuItem.addActionListener(e -> {

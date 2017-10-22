@@ -17,8 +17,6 @@ import java.util.stream.Collectors;
 import org.apache.log4j.Logger;
 
 import markmann.dennis.fileExtractor.logging.LogHandler;
-import markmann.dennis.fileExtractor.mediaObjects.Anime;
-import markmann.dennis.fileExtractor.mediaObjects.Medium;
 
 /**
  * Class used for creating and expanding the history file containing information about the media files processed by the
@@ -38,7 +36,7 @@ class HistoryHandler {
      *
      * @param mediaList: List containing the information about the recently processed media files.
      */
-    void addToHistory(ArrayList<Medium> mediaList) {
+    void addToHistory(ArrayList<File> mediaList) {
         try {
             if (new File(this.historyPath).createNewFile()) {
                 LOGGER.info("History file created successfully.");
@@ -52,15 +50,12 @@ class HistoryHandler {
                 StringBuilder sb = new StringBuilder();
                 Date date = new Date();
                 sb.append(this.handleDayChange(date));
-                for (Medium medium : mediaList) {
+                for (File medium : mediaList) {
                     sb.append(new SimpleDateFormat("HH:mm:ss").format(date));
                     sb.append("  (");
                     sb.append(medium.getClass().getSimpleName());
                     sb.append(")  ");
-                    if (medium instanceof Anime) {
-                        sb.append(" ");
-                    }
-                    sb.append(medium.getCompleteTitleNoExt());
+                    sb.append(medium.getName());
                     sb.append("\n");
                 }
                 out.print(sb.toString());

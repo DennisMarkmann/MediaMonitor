@@ -9,10 +9,9 @@ import org.apache.log4j.Logger;
 import dennis.markmann.MyLibraries.DefaultJobs.File.FileFilter;
 import dennis.markmann.MyLibraries.DefaultJobs.File.FileLister;
 import markmann.dennis.fileExtractor.logging.LogHandler;
-import markmann.dennis.fileExtractor.mediaObjects.Medium;
 import markmann.dennis.fileExtractor.settings.GeneralSettings;
 import markmann.dennis.fileExtractor.settings.SettingHandler;
-import markmann.dennis.fileExtractor.settings.TypeSettings;
+import markmann.dennis.fileExtractor.settings.ShowsToWatch;
 
 /**
  * Used to scan for new media to process.
@@ -67,7 +66,7 @@ class ProcessingThread implements Runnable {
     public void run() {
         if (Controller.applyForWriteAccess()) {
             SettingHandler.readSettingsFromXML(false);
-            for (final TypeSettings settings : SettingHandler.getTypeSettings()) {
+            for (final ShowsToWatch settings : SettingHandler.getTypeSettings()) {
                 this.startProcessing(settings);
             }
         }
@@ -80,7 +79,7 @@ class ProcessingThread implements Runnable {
      *
      * @param settings: settings used for the currently processed media type.
      */
-    private void startProcessing(TypeSettings settings) {
+    private void startProcessing(ShowsToWatch settings) {
         LOGGER.info("Checking for " + settings.getType().toString() + ((this.manually) ? " (manually):" : ":"));
         if (SettingHandler.getGeneralSettings().useExtendedLogging()) {
             LOGGER.info(
@@ -95,25 +94,22 @@ class ProcessingThread implements Runnable {
         }
         ArrayList<File> subFolderList = new FileLister().listFolderAtPath(extractionFolder);
         ArrayList<File> fileList = this.collectFilesToProcess(extractionFolder, subFolderList);
-        ArrayList<Medium> mediaList = new FileRenamer().scanFiles(fileList, settings.getType());
 
         GeneralSettings generalSettings = SettingHandler.getGeneralSettings();
 
-        if (generalSettings.useFileMoving()) {
-            File completionFolder = new File(settings.getCompletionPath());
-            if (!this.isPathValid(completionFolder)) {
-                return;
-            }
-            new FileMover().moveFiles(mediaList, completionFolder, settings);
+        File completionFolder = new File(settings.getCompletionPath());
+        if (!this.isPathValid(completionFolder)) {
+            return;
         }
+        new FileMover().moveFiles(fileList, completionFolder, settings);
         if (generalSettings.useCleanup()) {
             new FileCleaner().cleanFiles(subFolderList);
         }
         if (generalSettings.useHistory()) {
-            new HistoryHandler().addToHistory(mediaList);
+            new HistoryHandler().addToHistory(fileList);
         }
-        if ((mediaList.size() > 0)) {
-            NotificationHelper.showExtractionNotification(mediaList);
+        if ((fileList.size() > 0)) {
+            NotificationHelper.showExtractionNotification(fileList);
         }
     }
 }

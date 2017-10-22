@@ -5,12 +5,11 @@
     <UseTimer>true</UseTimer>
     <TimerInterval>60</TimerInterval>
     <UsePopupNotification>true</UsePopupNotification>
-    <UseRenaming>true</UseRenaming>
     <UseCleanup>true</UseCleanup>
-    <UseFileMoving>true</UseFileMoving>
     <UseHistory>true</UseHistory>
     <UseExtendedLogging>false</UseExtendedLogging>
-    <RemoveCorruptFiles>true</RemoveCorruptFiles>
-    <RemoveVersionNumbers>true</RemoveVersionNumbers>
     <StartPaused>false</StartPaused>
+    <UseFolderCreation>true</UseFolderCreation>
+    <CompletionPath>Test</CompletionPath>
 </Settings>
+

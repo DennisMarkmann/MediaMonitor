@@ -10,11 +10,7 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import markmann.dennis.fileExtractor.logging.LogHandler;
-import markmann.dennis.fileExtractor.mediaObjects.MediaType;
-import markmann.dennis.fileExtractor.mediaObjects.Medium;
-import markmann.dennis.fileExtractor.mediaObjects.Series;
-import markmann.dennis.fileExtractor.settings.ExceptionPath;
-import markmann.dennis.fileExtractor.settings.TypeSettings;
+import markmann.dennis.fileExtractor.settings.ShowsToWatch;
 
 /**
  * Used to move files from their current directory to a given destination.
@@ -35,37 +31,14 @@ class FileMover {
      * @param exceptionPath for even more special behavior
      * @return the path to move the file to.
      */
-    private String checkForAdditionalFolder(Medium medium, TypeSettings settings, String exceptionPath) {
+    private String checkForAdditionalFolder(File medium, ShowsToWatch settings) {
         String additionalFolder = "";
-        boolean addSeriesFolder = false;
 
-        if (settings.useSeriesFolder()) {
-            addSeriesFolder = true;
-        }
-
-        if (exceptionPath.equals("") && settings.useCurrentlyWatchingCheck()) {
-            if (!new File(settings.getCompletionPath() + "\\" + medium.getTitle()).exists()) {
-                additionalFolder = additionalFolder + "\\Later\\";
-                addSeriesFolder = true;
-            }
-        }
-
-        if (addSeriesFolder) {
-            additionalFolder = additionalFolder + medium.getTitle() + "\\";
-        }
-        if (settings.useSeasonFolder() && settings.getType().equals(MediaType.Series)) {
-            additionalFolder = additionalFolder + ((Series) medium).getSeason() + "\\";
-        }
+        additionalFolder = additionalFolder + medium.getName() + "\\";
+        // if (settings.useSeasonFolder() && settings.getType().equals(MediaType.Series)) {
+        // additionalFolder = additionalFolder + ((Series) medium).getSeason() + "\\";
+        // }
         return additionalFolder;
-    }
-
-    private String checkForException(String fileName, ArrayList<ExceptionPath> exceptions) {
-        for (ExceptionPath exceptionPath : exceptions) {
-            if (fileName.toLowerCase().startsWith(exceptionPath.getName().toLowerCase())) {
-                return exceptionPath.getPath();
-            }
-        }
-        return "";
     }
 
     /**
@@ -75,21 +48,20 @@ class FileMover {
      * @param destinationDirectory to move to.
      * @param settings
      */
-    void moveFiles(final ArrayList<Medium> mediaList, final File destinationDirectory, TypeSettings settings) {
+    void moveFiles(final ArrayList<File> mediaList, final File destinationDirectory, ShowsToWatch settings) {
 
-        for (final Medium medium : mediaList) {
+        for (final File medium : mediaList) {
             try {
-                String title = medium.getCompleteTitle();
-                String exceptionPath = this.checkForException(title, settings.getExceptions());
-                String additionalFolder = this.checkForAdditionalFolder(medium, settings, exceptionPath);
+                String title = medium.getName();
+                String additionalFolder = this.checkForAdditionalFolder(medium, settings);
 
-                File destinationFolder = new File(destinationDirectory.getPath() + additionalFolder + "\\" + exceptionPath);
+                File destinationFolder = new File(destinationDirectory.getPath() + additionalFolder + "\\");
                 if (!destinationFolder.exists()) {
                     destinationFolder.mkdirs();
                 }
 
                 Path destinationPath = new File(destinationFolder.toString() + "\\" + title).toPath();
-                Path sourcePath = new File(medium.getCompletePath()).toPath();
+                Path sourcePath = new File(medium.getPath()).toPath();
                 Files.move(sourcePath, destinationPath, StandardCopyOption.REPLACE_EXISTING);
                 LOGGER.info("Moving '" + title + "' to '" + destinationPath + "'.");
             }
