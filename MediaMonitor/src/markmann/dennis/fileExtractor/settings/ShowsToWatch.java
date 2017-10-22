@@ -22,7 +22,7 @@ public class ShowsToWatch implements Settings {
         this.showsToWatch.add(newSeries);
     }
 
-    void clearExceptions() {
+    void clearShowsToWatch() {
         this.showsToWatch = new ArrayList<>();
     }
 

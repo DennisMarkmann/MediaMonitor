@@ -23,6 +23,7 @@ class ProcessingThread implements Runnable {
 
     private static final Logger LOGGER = LogHandler.getLogger("./Logs/FileExtractor.log");
     private boolean manually;
+    private String pathToWatch;
 
     /**
      * Constructor for the class remembering if the scan was caused automatically or manually.
@@ -30,8 +31,9 @@ class ProcessingThread implements Runnable {
      * @param manually: constructor called manually or automatically?
      */
 
-    ProcessingThread(boolean manually) {
+    ProcessingThread(boolean manually, String pathToWatch) {
         this.manually = manually;
+        this.pathToWatch = pathToWatch;
     }
 
     /**
@@ -66,9 +68,7 @@ class ProcessingThread implements Runnable {
     public void run() {
         if (Controller.applyForWriteAccess()) {
             SettingHandler.readSettingsFromXML(false);
-            for (final ShowsToWatch settings : SettingHandler.getTypeSettings()) {
-                this.startProcessing(settings);
-            }
+            this.startProcessing(SettingHandler.getShowsToWatch());
         }
         LOGGER.info("-----------------------------------");
         Controller.returnWriteAccess();
@@ -80,15 +80,15 @@ class ProcessingThread implements Runnable {
      * @param settings: settings used for the currently processed media type.
      */
     private void startProcessing(ShowsToWatch settings) {
-        LOGGER.info("Checking for " + settings.getType().toString() + ((this.manually) ? " (manually):" : ":"));
+        // LOGGER.info("Checking for " + settings.getType().toString() + ((this.manually) ? " (manually):" : ":"));
         if (SettingHandler.getGeneralSettings().useExtendedLogging()) {
-            LOGGER.info(
-                    "Type: '" + settings.getType() + "', ExtractionPath: '" + settings.getExtractionPath()
-                            + "', CompletionPath: '" + settings.getCompletionPath() + "', SeriesFolder: '"
-                            + settings.useSeriesFolder() + "', SeasonFolder: '" + settings.useSeasonFolder()
-                            + "', CurrentlyWatchingCheck: '" + settings.useCurrentlyWatchingCheck() + "'.");
+            // LOGGER.info(
+            // "Type: '" + settings.getType() + "', ExtractionPath: '" + settings.getExtractionPath()
+            // + "', CompletionPath: '" + settings.getCompletionPath() + "', SeriesFolder: '"
+            // + settings.useSeriesFolder() + "', SeasonFolder: '" + settings.useSeasonFolder()
+            // + "', CurrentlyWatchingCheck: '" + settings.useCurrentlyWatchingCheck() + "'.");
         }
-        File extractionFolder = new File(settings.getExtractionPath());
+        File extractionFolder = new File(this.pathToWatch);
         if (!this.isPathValid(extractionFolder)) {
             return;
         }
@@ -97,7 +97,7 @@ class ProcessingThread implements Runnable {
 
         GeneralSettings generalSettings = SettingHandler.getGeneralSettings();
 
-        File completionFolder = new File(settings.getCompletionPath());
+        File completionFolder = new File(SettingHandler.getGeneralSettings().getCompletionPath());
         if (!this.isPathValid(completionFolder)) {
             return;
         }

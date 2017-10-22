@@ -1,5 +1,7 @@
 package markmann.dennis.fileExtractor.settings;
 
+import java.util.ArrayList;
+
 /**
  * Settings object containing all universal settings affecting every kind of media.
  *
@@ -19,9 +21,27 @@ public class GeneralSettings implements Settings {
     boolean startPaused = false;
     String CompletionPath = "Test";
     boolean useFolderCreation = false;
+    ArrayList<String> pathsToMonitor = new ArrayList<>();
+
+    void addShow(String newPath) {
+        for (String name : this.pathsToMonitor) {
+            if (name.equals(newPath)) {
+                return;
+            }
+        }
+        this.pathsToMonitor.add(newPath);
+    }
+
+    void clearMonitoredPaths() {
+        this.pathsToMonitor = new ArrayList<>();
+    }
 
     public String getCompletionPath() {
         return this.CompletionPath;
+    }
+
+    public ArrayList<String> getMonitoredPaths() {
+        return this.pathsToMonitor;
     }
 
     public int getTimerInterval() {

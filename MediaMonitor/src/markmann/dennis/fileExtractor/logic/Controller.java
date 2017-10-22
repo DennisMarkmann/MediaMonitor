@@ -47,7 +47,9 @@ public class Controller {
      * Initial scan for files to extract.
      */
     public static void initiateManualScan() {
-        new Thread(new ProcessingThread(true)).start();
+        for (String pathToWatch : SettingHandler.getGeneralSettings().getMonitoredPaths()) {
+            new Thread(new ProcessingThread(true, pathToWatch)).start();
+        }
     }
 
     /**
@@ -95,7 +97,6 @@ public class Controller {
         boolean overwriteExistingSettings = false;
         if (overwriteExistingSettings) {
             // Use with caution! This overwrites the currently defined settings with default ones!
-            SettingHandler.createDefaultSettings();
             SettingHandler.writeSettingsToXML();
         }
         else {
@@ -131,7 +132,9 @@ public class Controller {
 
             @Override
             public void run() {
-                new Thread(new ProcessingThread(false)).start();
+                for (String pathToWatch : SettingHandler.getGeneralSettings().getMonitoredPaths()) {
+                    new Thread(new ProcessingThread(false, pathToWatch)).start();
+                }
             }
 
         }, 1000, timerInterval * 60000);

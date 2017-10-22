@@ -94,8 +94,11 @@ public class SystemTrayMenu {
             if (settings instanceof GeneralSettings) {
                 name = "General";
             }
+            else if (settings instanceof ShowsToWatch) {
+                name = "ShowsToWatch";
+            }
             else {
-                name = ((ShowsToWatch) settings).getType().toString();
+                name = "";
             }
             MenuItem subMenuItem = new MenuItem(name);
             subMenuItem.addActionListener(e -> {
