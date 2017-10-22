@@ -17,7 +17,6 @@ public class GeneralSettings implements Settings {
     boolean usePopupNotification = true;
     boolean useCleanup = true;
     boolean useHistory = true;
-    boolean useExtendedLogging = false;
     boolean startPaused = false;
     String CompletionPath = "Test";
     boolean useFolderCreation = false;
@@ -64,10 +63,6 @@ public class GeneralSettings implements Settings {
         this.useCleanup = useCleanup;
     }
 
-    public void setUseExtendedLogging(boolean useExtendedLogging) {
-        this.useExtendedLogging = useExtendedLogging;
-    }
-
     public void setUseFolderCreation(boolean useFolderCreation) {
         this.useFolderCreation = useFolderCreation;
     }
@@ -98,10 +93,6 @@ public class GeneralSettings implements Settings {
 
     public boolean useCleanup() {
         return this.useCleanup;
-    }
-
-    public boolean useExtendedLogging() {
-        return this.useExtendedLogging;
     }
 
     public boolean useFolderCreation() {

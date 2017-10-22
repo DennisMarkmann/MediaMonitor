@@ -11,7 +11,6 @@ import dennis.markmann.MyLibraries.DefaultJobs.File.FileLister;
 import markmann.dennis.fileExtractor.logging.LogHandler;
 import markmann.dennis.fileExtractor.settings.GeneralSettings;
 import markmann.dennis.fileExtractor.settings.SettingHandler;
-import markmann.dennis.fileExtractor.settings.ShowsToWatch;
 
 /**
  * Used to scan for new media to process.
@@ -41,9 +40,10 @@ class ProcessingThread implements Runnable {
      */
     private ArrayList<File> collectFilesToProcess(File extractionFolder, ArrayList<File> subFolderList) {
         FileLister fl = new FileLister();
-        ArrayList<File> fileList = fl.listFilesForFolder(extractionFolder, false);
+        ArrayList<File> fileList = fl.listFilesForFolder(extractionFolder, null, false);
         fileList.addAll(fl.listFilesInFolderList(subFolderList, true));
         fileList = new FileFilter().addMovies().filter(fileList);
+        fileList = new FileFilter().filterByNames(fileList, SettingHandler.getShowsToWatch().getShows());
         LOGGER.info("Number of entries to process: '" + fileList.size() + "'.");
         Collections.sort(fileList);
         return fileList;
@@ -68,7 +68,7 @@ class ProcessingThread implements Runnable {
     public void run() {
         if (Controller.applyForWriteAccess()) {
             SettingHandler.readSettingsFromXML(false);
-            this.startProcessing(SettingHandler.getShowsToWatch());
+            this.startProcessing();
         }
         LOGGER.info("-----------------------------------");
         Controller.returnWriteAccess();
@@ -79,15 +79,9 @@ class ProcessingThread implements Runnable {
      *
      * @param settings: settings used for the currently processed media type.
      */
-    private void startProcessing(ShowsToWatch settings) {
-        // LOGGER.info("Checking for " + settings.getType().toString() + ((this.manually) ? " (manually):" : ":"));
-        if (SettingHandler.getGeneralSettings().useExtendedLogging()) {
-            // LOGGER.info(
-            // "Type: '" + settings.getType() + "', ExtractionPath: '" + settings.getExtractionPath()
-            // + "', CompletionPath: '" + settings.getCompletionPath() + "', SeriesFolder: '"
-            // + settings.useSeriesFolder() + "', SeasonFolder: '" + settings.useSeasonFolder()
-            // + "', CurrentlyWatchingCheck: '" + settings.useCurrentlyWatchingCheck() + "'.");
-        }
+    private void startProcessing() {
+        LOGGER.info("Checking for new files " + ((this.manually) ? " (manually):" : ":"));
+
         File extractionFolder = new File(this.pathToWatch);
         if (!this.isPathValid(extractionFolder)) {
             return;
@@ -101,7 +95,7 @@ class ProcessingThread implements Runnable {
         if (!this.isPathValid(completionFolder)) {
             return;
         }
-        new FileMover().moveFiles(fileList, completionFolder, settings);
+        new FileMover().moveFiles(fileList, completionFolder);
         if (generalSettings.useCleanup()) {
             new FileCleaner().cleanFiles(subFolderList);
         }

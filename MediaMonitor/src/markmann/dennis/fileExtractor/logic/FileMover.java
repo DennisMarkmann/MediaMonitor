@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import markmann.dennis.fileExtractor.logging.LogHandler;
-import markmann.dennis.fileExtractor.settings.ShowsToWatch;
 
 /**
  * Used to move files from their current directory to a given destination.
@@ -31,7 +30,7 @@ class FileMover {
      * @param exceptionPath for even more special behavior
      * @return the path to move the file to.
      */
-    private String checkForAdditionalFolder(File medium, ShowsToWatch settings) {
+    private String checkForAdditionalFolder(File medium) {
         String additionalFolder = "";
 
         additionalFolder = additionalFolder + medium.getName() + "\\";
@@ -48,12 +47,12 @@ class FileMover {
      * @param destinationDirectory to move to.
      * @param settings
      */
-    void moveFiles(final ArrayList<File> mediaList, final File destinationDirectory, ShowsToWatch settings) {
+    void moveFiles(final ArrayList<File> mediaList, final File destinationDirectory) {
 
         for (final File medium : mediaList) {
             try {
                 String title = medium.getName();
-                String additionalFolder = this.checkForAdditionalFolder(medium, settings);
+                String additionalFolder = this.checkForAdditionalFolder(medium);
 
                 File destinationFolder = new File(destinationDirectory.getPath() + additionalFolder + "\\");
                 if (!destinationFolder.exists()) {

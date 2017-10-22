@@ -18,30 +18,18 @@ class FileCleaner {
     private static final Logger LOGGER = LogHandler.getLogger("./Logs/FileExtractor.log");
 
     /**
-     * Starts the deletion of a given list of files / folder. Subfolder are included.
+     * Starts the deletion of a given list of files / folder.
      *
      * @param fileList List of files / folder to delete.
      */
 
     void cleanFiles(ArrayList<File> fileList) {
         for (File file : fileList) {
-            this.deleteDir(file);
-            LOGGER.info("Deleting folder: '" + file.getName() + "'.");
-        }
-    }
-
-    /**
-     * Recursively deleting the given file / folder and everything in it.
-     *
-     * @param file / folder to delete.
-     */
-    private void deleteDir(File file) {
-        File[] contents = file.listFiles();
-        if (contents != null) {
-            for (File f : contents) {
-                this.deleteDir(f);
+            File[] contents = file.listFiles();
+            if (contents == null) {
+                LOGGER.info("Deleting folder: '" + file.getName() + "'.");
+                file.delete();
             }
         }
-        file.delete();
     }
 }

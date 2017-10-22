@@ -83,10 +83,6 @@ class XMLFileReader {
 
         try {
 
-            if (SettingHandler.getGeneralSettings().useExtendedLogging()) {
-                LOGGER.info("Reading '" + name + "' file.");
-            }
-
             File fXmlFile = new File("./Settings/" + name);
 
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
