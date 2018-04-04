@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE xml>
-<project name="FileExtractor" default="test">
+<project name="MediaMonitor" default="test">
 
 	<property name="src.dir" location="src" />
 	<property name="build.dir" location="build" />
@@ -44,9 +44,9 @@
 
 	<target name="export" depends="compile" description="Create a runnable jar file for the project and copy needed ressources.">
 		<mkdir dir="${export.dir}" />
-		<jar destfile="${export.dir}/FileExtractor.jar" filesetmanifest="mergewithoutmain">
+		<jar destfile="${export.dir}/MediaMonitor.jar" filesetmanifest="mergewithoutmain">
 			<manifest>
-				<attribute name="Main-Class" value="markmann.dennis.fileExtractor.logic.StartUp" />
+				<attribute name="Main-Class" value="markmann.dennis.mediaMonitor.logic.StartUp" />
 				<attribute name="Class-Path" value="." />
 			</manifest>
 			<fileset dir="${build.dir}/classes" />

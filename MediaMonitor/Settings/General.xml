@@ -7,9 +7,8 @@
     <UsePopupNotification>true</UsePopupNotification>
     <UseCleanup>true</UseCleanup>
     <UseHistory>true</UseHistory>
-    <UseExtendedLogging>false</UseExtendedLogging>
     <StartPaused>false</StartPaused>
-    <UseFolderCreation>true</UseFolderCreation>
     <CompletionPath>Test</CompletionPath>
+    <UseFolderCreation>false</UseFolderCreation>
+    <PathsToMonitor>[]</PathsToMonitor>
 </Settings>
-
